@@ -1,0 +1,40 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Question;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
+
+class QuestionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $data = [];
+        $now = Carbon::now();
+
+        foreach (range(1, 100) as $index) {
+            $question = Question::factory()->make([
+                'user_id' => rand(1, 10),
+                'category_id' => rand(1, 4),
+            ]);
+
+            $data[] = [
+                'title' => $question->title,
+                'content' => $question->content,
+                'user_id' => $question->user_id,
+                'category_id' => $question->category_id,
+                'created_at' => $now->toDateTimeString(),
+                'updated_at' => $now->toDateTimeString(),
+                'published_at' => $now->toDateTimeString(),
+            ];
+        }
+
+        Question::insert($data);
+    }
+}

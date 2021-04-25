@@ -32,9 +32,7 @@ class SubscribeQuestionsController extends Controller
      */
     public function store(Question $question)
     {
-        $question->subscriptions()->create([
-            'user_id' => auth()->user()->id,
-        ]);
+        $question->subscribe(auth()->id());
 
         return response([], Response::HTTP_CREATED);
     }
@@ -70,10 +68,7 @@ class SubscribeQuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        $question
-            ->subscriptions()
-            ->where('user_id', auth()->user()->id)
-            ->delete();
+        $question->unsubscribe(auth()->id());
 
         return response([], Response::HTTP_CREATED);
     }

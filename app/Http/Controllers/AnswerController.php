@@ -48,7 +48,7 @@ class AnswerController extends Controller
             'content' => 'required',
         ]);
 
-        $question->answers()->create([
+        $question->addAnswer([
             'user_id' => auth()->id(),
             'content' => \request('content'),
         ]);

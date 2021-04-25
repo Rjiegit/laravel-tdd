@@ -139,4 +139,47 @@ class QuestionTest extends TestCase
 
         $this->assertCount(0, $question->subscriptions);
     }
+
+    public function test_question_can_be_subscribed_to()
+    {
+        $user = User::factory()->create();
+
+        $question = Question::factory([
+            'user_id' => $user->id,
+        ])->create();
+
+        $question->subscribe($user->id);
+
+        $this->assertEquals(1, $question->subscriptions()->where('user_id', $user->id)->count());
+    }
+
+    public function test_question_can_be_unsubscribed_from()
+    {
+        $user = User::factory()->create();
+
+        $userId = $user->id;
+
+        $question = Question::factory()->create([
+            'user_id' => $userId,
+        ]);
+
+        $question->subscribe($userId);
+
+        $question->unsubscribe($userId);
+
+        $this->assertEquals(0, $question->subscriptions()->where('user_id', $userId)->count());
+    }
+
+    public function question_can_add_answer()
+    {
+        $question = Question::factory()->create();
+
+        $question->addAnswer([
+            'content' => Answer::factory()->create()->content,
+            'user_id' => User::factory()->create()->id
+        ]);
+
+        $this->assertEquals(1, $question->refresh()->answers()->count());
+    }
+
 }

@@ -50,7 +50,7 @@ class AnswerController extends Controller
 
         $question->addAnswer([
             'user_id' => auth()->id(),
-            'content' => \request('content'),
+            'content' => request('content'),
         ]);
 
         return back()->with('flash', '發布成功');

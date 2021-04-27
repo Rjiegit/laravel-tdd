@@ -91,6 +91,12 @@ class Question extends Model
     {
         $answer = $this->answers()->create($answer);
 
+        $this
+            ->subscriptions
+            ->where('user_id', '!=', $answer->user_id)
+            ->each
+            ->notify($answer);
+
         return $answer;
     }
 }

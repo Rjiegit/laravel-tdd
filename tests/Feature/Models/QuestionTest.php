@@ -6,9 +6,11 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Notifications\QuestionWasUpdated;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class QuestionTest extends TestCase
@@ -180,6 +182,24 @@ class QuestionTest extends TestCase
         ]);
 
         $this->assertEquals(1, $question->refresh()->answers()->count());
+    }
+
+    public function test_notify_all_subscribers_when_an_answer_is_added()
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $question = Question::factory()->create();
+
+        $question
+            ->subscribe($user->id)
+            ->addAnswer([
+                'content' => 'Foobar',
+                'user_id' => 999
+            ]);
+
+        Notification::assertSentTo($user, QuestionWasUpdated::class);
     }
 
 }

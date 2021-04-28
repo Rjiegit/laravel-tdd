@@ -16,6 +16,7 @@ class Question extends Model
     protected $appends = [
         'upVotesCount',
         'downVotesCount',
+        'subscriptionsCount'
     ];
 
     public function answers()
@@ -46,6 +47,11 @@ class Question extends Model
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function getSubscriptionsCountAttribute()
+    {
+        return $this->subscriptions->count();
     }
 
     public function markAsBestAnswer($answer)
@@ -98,5 +104,14 @@ class Question extends Model
             ->notify($answer);
 
         return $answer;
+    }
+
+    public function isSubscribedTo($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->subscriptions()->where('user_id', '=', $user->id)->exists();
     }
 }

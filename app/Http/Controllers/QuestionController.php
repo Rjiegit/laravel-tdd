@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Filters\QuestionFilter;
 use App\Models\Category;
 use App\Models\Question;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -33,6 +32,10 @@ class QuestionController extends Controller
         }
 
         $questions = $questions->filter($filters)->paginate(20);
+
+        array_map(function (&$item) {
+            return $this->appendAttribute($item);
+        }, $questions->items());
 
         return view('questions.index', compact('questions'));
     }
@@ -110,5 +113,16 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function appendAttribute($item)
+    {
+        $user = auth()->user();
+
+        $item->isVotedUp = $item->isVotedUp($user);
+        $item->isVotedDown = $item->isVotedDown($user);
+        $item->isSubscribedTo = $item->isSubscribedTo($user);
+
+        return $item;
     }
 }

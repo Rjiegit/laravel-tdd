@@ -39,7 +39,7 @@ trait VoteTrait
         return $this->morphMany(Vote::class, 'voted')->whereType($type);
     }
 
-    public function isVotedUp(User $user)
+    public function isVotedUp($user)
     {
         if (!$user) {
             return false;

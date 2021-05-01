@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Question;
+use App\Observers\QuestionObserver;
+use App\Translator\CustomSlugTranslator;
+use App\Translator\Translator;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -17,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.debug')) {
             $this->app->register('VIACreative\SudoSu\ServiceProvider');
         }
+
+        $this->app->bind(Translator::class, CustomSlugTranslator::class);
     }
 
     /**
@@ -26,6 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Question::observe(QuestionObserver::class);
     }
 }

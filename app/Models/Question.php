@@ -29,6 +29,11 @@ class Question extends Model
         return $this->hasMany(Subscription::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -114,4 +119,13 @@ class Question extends Model
 
         return $this->subscriptions()->where('user_id', '=', $user->id)->exists();
     }
+
+    public function path()
+    {
+        return $this->slug
+            ? "/questions/{$this->category->slug}/{$this->id}/{$this->slug}"
+            : "/questions/{$this->category->slug}/{$this->id}";
+    }
+
+
 }

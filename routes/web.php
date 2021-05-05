@@ -32,7 +32,7 @@ Auth::routes(['verify' => true]);
 Route::get('questions/{category?}', [QuestionController::class, 'index'])->name('questions.index');
 Route::get('questions/create', [QuestionController::class, 'create'])->name('questions.create');
 Route::post('questions', [QuestionController::class, 'store']);
-Route::get('questions/{category}/{question}', [QuestionController::class, 'show']);
+Route::get('questions/{category}/{question}/{slug?}', [QuestionController::class, 'show']);
 
 Route::post('/questions/{question}/subscriptions', [SubscribeQuestionsController::class, 'store'])
     ->name('subscribe-questions.store');

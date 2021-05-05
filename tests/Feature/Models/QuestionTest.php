@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Models;
 
+use App\Jobs\TranslateSlug;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Subscription;
 use App\Models\User;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Queue;
 use Tests\TestCase;
 
 class QuestionTest extends TestCase
@@ -202,4 +205,36 @@ class QuestionTest extends TestCase
         Notification::assertSentTo($user, QuestionWasUpdated::class);
     }
 
+    public function test_a_translate_slug_job_is_pushed_when_create_question()
+    {
+        Queue::fake();
+
+        Question::factory()->create([
+            'title' => '英語 英語'
+        ]);
+
+        Queue::assertPushed(TranslateSlug::class);
+    }
+
+    public function test_question_has_a_path()
+    {
+        $category = Category::factory()->create();
+
+        $question = Question::factory()->create([
+            'slug' => 'english-english',
+            'category_id' => $category->id,
+        ]);
+
+        $this->assertEquals(
+            "/questions/{$question->category->slug}/{$question->id}/english-english",
+            $question->path()
+        );
+    }
+
+    public function test_a_question_belongs_to_a_category()
+    {
+        $question = Question::factory()->create();
+
+        $this->assertInstanceOf(Category::class, $question->category);
+    }
 }

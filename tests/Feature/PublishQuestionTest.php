@@ -19,7 +19,8 @@ class PublishQuestionTest extends TestCase
         $question = Question::factory(['user_id' => auth()->id()])->create();
 
         $this->assertCount(0, Question::query()->published()->get());
-        $this->post(route('published-question.store', ['question' => $question]));
+        $this->post(route('published-question.store',
+            ['question' => $question]))->assertRedirect($question->refresh()->path());
 
         $this->assertCount(1, Question::query()->published()->get());
     }

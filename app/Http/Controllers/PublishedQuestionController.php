@@ -38,7 +38,7 @@ class PublishedQuestionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Question $question
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Question $question)
     {
@@ -49,7 +49,7 @@ class PublishedQuestionController extends Controller
 
         event(new PublishQuestion($question));
 
-        return redirect("/questions/{$question->id}")->with('flash', "發布成功!");
+        return redirect($question->path())->with('flash', "發布成功!");
     }
 
     /**

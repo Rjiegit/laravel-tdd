@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Branding Image -->
         <a class="navbar-brand " href="{{ url('/') }}">
-            laravel-tdd
+            Laravel - TDD
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,7 +11,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="/questions">發現</a></li>
+                <li class="nav-item {{ active_class(empty(request()->only(['by', 'popularity', 'unanswered']))) }}"><a class="nav-link" href="/questions">發現</a></li>
+                @auth
+                    <li class="nav-item {{ active_class(request()->has('by')) }}" ><a class="nav-link" href="/questions?by={{ Auth::user()->name }}">我發布的問題</a></li>
+                @endauth
+                <li class="nav-item {{ active_class(request()->has('popularity') && request('popularity') == "1" ) }}" ><a class="nav-link" href="/questions?popularity=1">熱門問題</a></li>
+
+                <li class="nav-item {{ active_class(request()->has('unanswered') && request('unanswered') == "1" ) }}"><a class="nav-link" href="/questions?unanswered=1">回答</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分類列表 </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach($categories as $category)
+                            <li><a class="dropdown-item" href="/questions/{{ $category->slug }}">{{ $category->name }}</a> </li>
+                        @endforeach
+                    </ul>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -19,7 +35,7 @@
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item"><a class="btn-sm btn btn-outline-primary fs-09" href="{{ route('login') }}">登入</a></li>
-                    <li class="nav-item"><a class="ml-3 btn-sm btn btn-primary fs-09" href="{{ route('register') }}">註冊</a></li>
+                    <li class="nav-item"><a class="ml-3 btn-sm btn btn-primary fs-09" href="{{ route('register') }}">加入</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -27,11 +43,13 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">個人中心</a>
+                            <a class="dropdown-item" href="/drafts">草稿</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" id="logout" href="#">
                                 <form action="{{ route('logout') }}" method="POST">
                                     {{ csrf_field() }}
-                                    <button class="btn btn-block btn-danger" type="submit" name="button">退出</button>
+                                    <button class="btn btn-block btn-danger" type="submit" name="button">退出
+                                    </button>
                                 </form>
                             </a>
                         </div>

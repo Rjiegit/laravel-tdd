@@ -26,6 +26,7 @@ window.flash = function(message){
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('question', require('./components/Question.vue').default);
 Vue.component('answer', require('./components/Answer.vue').default);
 Vue.component('flash', require('./components/Flash.vue').default);
 

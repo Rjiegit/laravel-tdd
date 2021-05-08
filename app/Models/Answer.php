@@ -36,6 +36,27 @@ class Answer extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commented');
+    }
+
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments->count();
+    }
+
+    public function comment($content, $user)
+    {
+        $comment = $this->comments()->create([
+            'user_id' => $user->id,
+            'content' => $content,
+        ]);
+
+        return $comment;
+
+    }
+
     public function isBest()
     {
         return $this->id === $this->question->best_answer_id;

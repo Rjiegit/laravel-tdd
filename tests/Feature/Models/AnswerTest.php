@@ -3,9 +3,11 @@
 namespace Tests\Feature\Models;
 
 use App\Models\Answer;
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -153,5 +155,36 @@ class AnswerTest extends TestCase
         ])->create();
 
         $this->assertTrue($answer->refresh()->isVotedDown($user));
+    }
+
+    public function test_can_comment_an_answer()
+    {
+        $answer = Answer::factory()->create();
+
+        $answer->comment('content', User::factory()->create());
+
+        $this->assertEquals(1, $answer->refresh()->comments()->count());
+    }
+
+    public function test_an_answer_has_many_comments()
+    {
+        $answer = Answer::factory()->create();
+
+        Comment::factory([
+            'commented_id' => $answer->id,
+            'commented_type' => $answer->getMorphClass(),
+            'content' => 'it is a comment',
+        ])->create();
+
+        $this->assertInstanceOf(MorphMany::class, $answer->comments());
+    }
+
+    public function test_can_get_comments_count_attribute()
+    {
+        $answer = Answer::factory()->create();
+
+        $answer->comment('it is content', User::factory()->create());
+
+        $this->assertEquals(1, $answer->refresh()->commentsCount);
     }
 }

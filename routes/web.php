@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerCommentController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AnswerDownVotesController;
 use App\Http\Controllers\AnswerUpVoteController;
@@ -69,5 +70,7 @@ Route::delete('answers/{answer}/down-votes',
 
 Route::get('drafts', [DraftController::class, 'index']);
 
-Route::post('/questions/{question}/comments', [QuestionCommentController::class, 'store'])
+Route::post('questions/{question}/comments', [QuestionCommentController::class, 'store'])
     ->name('question-comments.store');
+
+Route::post('answers/{answer}/comments', [AnswerCommentController::class, 'store'])->name('answer-comments.store');

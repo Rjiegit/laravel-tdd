@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CommentTrait;
 use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class Question extends Model
 {
     use HasFactory;
     use VoteTrait;
+    use CommentTrait;
 
     protected $guarded = ['id'];
 
@@ -32,11 +34,6 @@ class Question extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commented');
     }
 
     public function creator()
@@ -64,10 +61,6 @@ class Question extends Model
         return $this->subscriptions->count();
     }
 
-    public function getCommentsCountAttribute()
-    {
-        return $this->comments->count();
-    }
 
     public function markAsBestAnswer($answer)
     {
@@ -137,12 +130,5 @@ class Question extends Model
             : "/questions/{$this->category->slug}/{$this->id}";
     }
 
-    public function comment($content, $user)
-    {
-        return $this->comments()->create([
-            'user_id' => $user->id,
-            'content' => $content,
-        ]);
-    }
 
 }

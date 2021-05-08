@@ -6,6 +6,7 @@ use App\Http\Controllers\AnswerUpVoteController;
 use App\Http\Controllers\BestAnswerController;
 use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PublishedQuestionController;
+use App\Http\Controllers\QuestionCommentController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDownVotesController;
 use App\Http\Controllers\QuestionUpVotesController;
@@ -67,3 +68,6 @@ Route::delete('answers/{answer}/down-votes',
     [AnswerDownVotesController::class, 'destroy'])->name('answer-down-votes.destroy');
 
 Route::get('drafts', [DraftController::class, 'index']);
+
+Route::post('/questions/{question}/comments', [QuestionCommentController::class, 'store'])
+    ->name('question-comments.store');

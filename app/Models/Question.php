@@ -34,6 +34,11 @@ class Question extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commented');
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -57,6 +62,11 @@ class Question extends Model
     public function getSubscriptionsCountAttribute()
     {
         return $this->subscriptions->count();
+    }
+
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments->count();
     }
 
     public function markAsBestAnswer($answer)
@@ -127,5 +137,12 @@ class Question extends Model
             : "/questions/{$this->category->slug}/{$this->id}";
     }
 
+    public function comment($content, $user)
+    {
+        return $this->comments()->create([
+            'user_id' => $user->id,
+            'content' => $content,
+        ]);
+    }
 
 }

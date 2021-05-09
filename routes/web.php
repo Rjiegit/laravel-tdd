@@ -5,6 +5,8 @@ use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AnswerDownVotesController;
 use App\Http\Controllers\AnswerUpVoteController;
 use App\Http\Controllers\BestAnswerController;
+use App\Http\Controllers\CommentDownVotesController;
+use App\Http\Controllers\CommentUpVotesController;
 use App\Http\Controllers\DraftController;
 use App\Http\Controllers\PublishedQuestionController;
 use App\Http\Controllers\QuestionCommentController;
@@ -62,6 +64,16 @@ Route::post('questions/{question}/down-votes', [QuestionDownVotesController::cla
     ->name('question-down-votes.store');
 Route::delete('questions/{question}/down-votes', [QuestionDownVotesController::class, 'destroy'])
     ->name('question-down-votes.destroy');
+
+Route::post('/comments/{comment}/up-votes', [CommentUpVotesController::class, 'store'])
+    ->name('comment-up-votes.store');
+Route::delete('/comments/{comment}/up-votes', [CommentUpVotesController::class, 'destroy'])
+    ->name('comment-up-votes.destroy');
+
+Route::post('/comments/{comment}/down-votes', [CommentDownVotesController::class, 'store'])
+    ->name('comment-down-votes.store');
+Route::delete('/comments/{comment}/down-votes', [CommentDownVotesController::class, 'destroy'])
+    ->name('comment-down-votes.destroy');
 
 Route::post('answers/{answer}/down-votes',
     [AnswerDownVotesController::class, 'store'])->name('answer-down-votes.store');

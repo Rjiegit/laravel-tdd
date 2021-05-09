@@ -33,6 +33,15 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::get('questions/{question}/comments', [QuestionCommentController::class, 'index'])
+    ->name('question-comments.index');
+Route::post('questions/{question}/comments', [QuestionCommentController::class, 'store'])
+    ->name('question-comments.store');
+Route::get('answers/{answer}/comments', [AnswerCommentController::class, 'index'])
+    ->name('answer-comments.index');
+Route::post('answers/{answer}/comments', [AnswerCommentController::class, 'store'])
+    ->name('answer-comments.store');
+
 Route::get('questions/{category?}', [QuestionController::class, 'index'])->name('questions.index');
 Route::get('questions/create', [QuestionController::class, 'create'])->name('questions.create');
 Route::post('questions', [QuestionController::class, 'store']);
@@ -81,8 +90,3 @@ Route::delete('answers/{answer}/down-votes',
     [AnswerDownVotesController::class, 'destroy'])->name('answer-down-votes.destroy');
 
 Route::get('drafts', [DraftController::class, 'index']);
-
-Route::post('questions/{question}/comments', [QuestionCommentController::class, 'store'])
-    ->name('question-comments.store');
-
-Route::post('answers/{answer}/comments', [AnswerCommentController::class, 'store'])->name('answer-comments.store');

@@ -10,17 +10,25 @@ class AnswerCommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')
+            ->except('index');
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Answer $answer
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
+    public function index(Answer $answer)
     {
-        //
+        $comments = $answer->comments()->paginate(10);
+
+        array_map(function (&$item) {
+            return $this->appendVotedAttribute($item);
+        }, $comments->items());
+
+        return $comments;
     }
 
     /**

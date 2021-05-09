@@ -10,17 +10,25 @@ class QuestionCommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')
+            ->except('index');
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Question $question
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
+    public function index(Question $question)
     {
-        //
+        $comments = $question->comments()->paginate(10);
+
+        array_map(function (&$item) {
+            return $this->appendVotedAttribute($item);
+        }, $comments->items());
+
+        return $comments;
     }
 
     /**

@@ -14,6 +14,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDownVotesController;
 use App\Http\Controllers\QuestionUpVotesController;
 use App\Http\Controllers\SubscribeQuestionsController;
+use App\Http\Controllers\UserAvatarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -90,3 +91,6 @@ Route::delete('answers/{answer}/down-votes',
     [AnswerDownVotesController::class, 'destroy'])->name('answer-down-votes.destroy');
 
 Route::get('drafts', [DraftController::class, 'index']);
+
+Route::post('users/{user}/avatar', [UserAvatarController::class, 'store'])
+    ->name('user-avatar.store');

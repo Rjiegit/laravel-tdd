@@ -1,8 +1,12 @@
 <template>
     <div>
         <a v-if="display">
-            <button v-if="isSubscribedTo" @click="toggleSubscription" class="btn btn-outline-secondary btn-sm mr-2"><i class="fa fa-eye-slash"></i> 取消关注</button>
-            <button v-else @click="toggleSubscription" class="btn btn-primary btn-sm mr-2"><i class="fa fa-eye"></i> 关注问题</button>
+            <button v-if="isSubscribedTo" @click="toggleSubscription" class="btn btn-outline-secondary btn-sm mr-2"><i class="fa fa-eye-slash"></i> 取消關注</button>
+            <button v-else @click="toggleSubscription" class="btn btn-primary btn-sm mr-2"><i class="fa fa-eye"></i> 關注問題</button>
+        </a>
+
+        <a :href="'/profiles/' + attributes.owner.name">
+            <img class="media-object img-thumbnail mr-3" :alt="attributes.owner.name" :src="attributes.user.userAvatar" style="width:48px;height:48px;" />
         </a>
 
         <a class="text-secondary">

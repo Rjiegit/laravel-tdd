@@ -1,7 +1,9 @@
 <template>
     <li class=" media" :name="'comment' + id" :id="'comment' + id">
         <div class="media-left">
-            <!-- user avatar-->
+            <a :href="'/profiles/' + attributes.owner.name">
+                <img class="media-object img-thumbnail mr-3" :alt="attributes.owner.name" :src="attributes.user.userAvatar" style="width:48px;height:48px;" />
+            </a>
         </div>
 
         <div class="media-body">

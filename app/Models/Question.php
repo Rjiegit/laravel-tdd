@@ -25,6 +25,10 @@ class Question extends Model
         'commentEndpoint',
     ];
 
+    protected $with = [
+        'category',
+    ];
+
     public function answers()
     {
         return $this->hasMany(Answer::class);

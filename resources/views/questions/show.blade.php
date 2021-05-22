@@ -50,7 +50,7 @@
                         <div class="media">
                             <div align="center">
                                 <a href="#">
-                                    <img class="thumbnail img-fluid" src="https://placekitten.com/300/300" width="300px" height="300px"/>
+                                    <img class="thumbnail img-fluid" src="{{ $question->creator->userAvatar }}" width="300px" height="300px"/>
                                 </a>
                             </div>
                         </div>

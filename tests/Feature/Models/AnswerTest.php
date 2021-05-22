@@ -9,11 +9,13 @@ use App\Models\Vote;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\AddCommentContractTest;
 use Tests\TestCase;
 
 class AnswerTest extends TestCase
 {
     use RefreshDatabase;
+    use AddCommentContractTest;
 
     public function test_it_knows_if_it_is_the_best()
     {
@@ -186,5 +188,10 @@ class AnswerTest extends TestCase
         $answer->comment('it is content', User::factory()->create());
 
         $this->assertEquals(1, $answer->refresh()->commentsCount);
+    }
+
+    protected function getCommentModel()
+    {
+        return Answer::factory()->create();
     }
 }

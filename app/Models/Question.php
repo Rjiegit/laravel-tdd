@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\CommentTrait;
+use App\Models\Traits\InvitedUsersTrait;
 use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Question extends Model
     use HasFactory;
     use VoteTrait;
     use CommentTrait;
+    use InvitedUsersTrait;
 
     protected $guarded = ['id'];
 

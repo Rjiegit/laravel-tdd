@@ -4,6 +4,7 @@
 namespace App\Models\Traits;
 
 
+use App\Events\PostComment;
 use App\Models\Comment;
 
 trait CommentTrait
@@ -14,6 +15,8 @@ trait CommentTrait
             'user_id' => $user->id,
             'content' => $content,
         ]);
+
+        event(new PostComment($comment));
 
         return $comment;
     }

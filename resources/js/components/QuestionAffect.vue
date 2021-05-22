@@ -1,8 +1,8 @@
 <template>
     <div>
         <a v-if="display">
-            <button v-if="isSubscribedTo" @click="toggleSubscription" class="btn btn-outline-secondary btn-sm mr-2"><i class="fa fa-eye-slash"></i> 取消關注</button>
-            <button v-else @click="toggleSubscription" class="btn btn-primary btn-sm mr-2"><i class="fa fa-eye"></i> 關注問題</button>
+            <button v-if="isSubscribedTo" @click="toggleSubscription" class="btn btn-outline-secondary btn-sm mr-2"><i class="fa fa-eye-slash"></i> 取消关注</button>
+            <button v-else @click="toggleSubscription" class="btn btn-primary btn-sm mr-2"><i class="fa fa-eye"></i> 关注问题</button>
         </a>
 
         <a class="text-secondary">
@@ -18,6 +18,27 @@
         </a>
         <span> • </span>
 
+        <a class="text-secondary" role="button" href="#" data-toggle="modal" :data-target="'#' + modalQuestionId">
+            <i class="fa fa-comments"></i>
+            <span v-text="commentsCount"></span> 個評論
+        </a>
+
+        <div class="modal fade" :id="modalQuestionId" tabindex="-1" role="dialog" :aria-labelledby="modalQuestionId" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" >
+                <div class="modal-content" style="height:750px">
+                    <div class="modal-header">
+                        <h4 class="modal-title" :id="modalQuestionId">
+                            評論列表
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <comments :data="this.question.comments" :subject="this.question" @addComment="commentsCount++"></comments>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <span> • </span>
         <a v-if="signedIn" class="text-secondary" >
 
             <button type="submit" :class="voteUpClasses" @click="toggleVoteUp" style="background-color:transparent;border-style:none;">
@@ -44,6 +65,7 @@ export default {
         return {
             subscriptionsCount: this.question.subscriptionsCount,
             answersCount: this.question.answers_count,
+            commentsCount: this.question.commentsCount,
             upVotesCount: this.question.upVotesCount,
             downVotesCount: this.question.downVotesCount,
             isVotedUp:this.question.isVotedUp,
@@ -75,6 +97,10 @@ export default {
 
         subscriptionEndpoint() {
             return '/questions/' + this.question.id + '/subscriptions';
+        },
+
+        modalQuestionId() {
+            return 'modalQuestion' + this.question.id
         },
 
         signedIn() {

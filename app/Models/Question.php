@@ -20,7 +20,9 @@ class Question extends Model
     protected $appends = [
         'upVotesCount',
         'downVotesCount',
-        'subscriptionsCount'
+        'subscriptionsCount',
+        'commentsCount',
+        'commentEndpoint',
     ];
 
     public function answers()

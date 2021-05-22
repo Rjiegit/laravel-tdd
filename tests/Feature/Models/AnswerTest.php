@@ -190,6 +190,16 @@ class AnswerTest extends TestCase
         $this->assertEquals(1, $answer->refresh()->commentsCount);
     }
 
+    public function test_can_get_comment_endpoint_attribute()
+    {
+        $answer = Answer::factory()->create();
+
+        $answer->comment('it is content', User::factory()->create());
+
+        $this->assertEquals("/answers/{$answer->id}/comments",$answer->refresh()->commentEndpoint);
+
+    }
+
     protected function getCommentModel()
     {
         return Answer::factory()->create();

@@ -49,7 +49,7 @@ class QuestionCommentsTest extends TestCase
             ]
         );
 
-        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertStatus(Response::HTTP_CREATED);
 
         $comment = $question->comments()->where('user_id', '=', $user->id)->first();
 

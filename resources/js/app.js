@@ -29,6 +29,7 @@ window.flash = function(message){
 Vue.component('question', require('./components/Question.vue').default);
 Vue.component('answer', require('./components/Answer.vue').default);
 Vue.component('flash', require('./components/Flash.vue').default);
+Vue.component('comments', require('./components/Comments.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

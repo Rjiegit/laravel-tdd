@@ -69,13 +69,22 @@ class QuestionTest extends TestCase
     {
         Notification::fake();
 
-        $john = User::factory()->create(['name'=>'John']);
+        $john = User::factory()->create(['name' => 'John']);
 
         $question = Question::factory()->create();
 
         $question->comment("@John Thank you!", $john);
 
         Notification::assertSentTo($john, YouWereMentionedInComment::class);
+    }
+
+    public function test_can_get_comment_endpoint_attribute()
+    {
+        $question = Question::factory()->create();
+        $question->comment('ist is content', User::factory()->create());
+
+        $this->assertEquals("/questions/{$question->id}/comments", $question->refresh()->commentEndpoint);
+
     }
 
     protected function getCommentModel()

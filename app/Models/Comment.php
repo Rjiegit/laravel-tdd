@@ -14,6 +14,7 @@ class Comment extends Model
     use InvitedUsersTrait;
 
     protected $guarded = ['id'];
+    protected $with = ['owner'];
 
     protected $appends = [
         'upVotesCount',

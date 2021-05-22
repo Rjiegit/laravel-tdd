@@ -34,7 +34,7 @@ class AnswerCommentsTest extends TestCase
             'content' => 'This is a comment.'
         ]);
 
-        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertStatus(Response::HTTP_CREATED);
 
         $comment = $answer->comments()->where('user_id', '=', $user->id)->first();
 

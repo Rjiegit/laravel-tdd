@@ -35,7 +35,7 @@ class QuestionCommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store($questionId)
     {
@@ -46,9 +46,9 @@ class QuestionCommentController extends Controller
 
         $question = Question::query()->published()->findOrFail($questionId);
 
-        $question->comment(request()->input('content'), auth()->user());
+        $comment = $question->comment(request()->input('content'), auth()->user());
 
-        return back();
+        return $comment->load('owner');
     }
 
     /**

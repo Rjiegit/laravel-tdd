@@ -30,4 +30,9 @@ trait CommentTrait
     {
         return $this->comments->count();
     }
+
+    public function getCommentEndpointAttribute()
+    {
+        return '/' . $this->getTable() . '/' . $this->id . '/comments';
+    }
 }

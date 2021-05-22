@@ -35,7 +35,7 @@ class AnswerCommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Answer $answer
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(Answer $answer)
     {
@@ -45,7 +45,7 @@ class AnswerCommentController extends Controller
 
         $comment = $answer->comment(\request()->input('content'), auth()->user());
 
-        return back();
+        return $comment->load('owner');
     }
 
     /**

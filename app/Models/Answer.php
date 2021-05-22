@@ -16,7 +16,9 @@ class Answer extends Model
     protected $guarded = ['id'];
     protected $appends = [
         'upVotesCount',
-        'downVotesCount'
+        'downVotesCount',
+        'commentsCount',
+        'commentEndpoint'
     ];
 
     protected static function boot()

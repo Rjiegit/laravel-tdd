@@ -13,4 +13,25 @@ class QuestionObserver
             dispatch(new TranslateSlug($question));
         }
     }
+
+    public function updated(Question $question)
+    {
+        if ($this->publishedJustNow($question)) {
+
+            $question->activities()->create([
+                'user_id' => $question->creator->id,
+                'type' => 'published_question'
+            ]);
+        }
+    }
+
+    /**
+     * @param Question $question
+     * @return bool
+     */
+    public function publishedJustNow(Question $question): bool
+    {
+        return $question->published_at != null
+            && $question->published_at->format('Y-m-d H:m:s') == $question->updated_at->format('Y-m-d H:m:s');
+    }
 }

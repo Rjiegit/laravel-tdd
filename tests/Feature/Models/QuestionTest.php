@@ -5,6 +5,7 @@ namespace Tests\Feature\Models;
 use App\Jobs\TranslateSlug;
 use App\Models\Answer;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Question;
 use App\Models\Subscription;
 use App\Models\User;
@@ -14,11 +15,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Queue;
+use Tests\Feature\ActivitiesContractTest;
+use Tests\Feature\AddCommentContractTest;
 use Tests\TestCase;
 
 class QuestionTest extends TestCase
 {
     use RefreshDatabase;
+    use AddCommentContractTest;
+    use ActivitiesContractTest;
 
     public function test_a_question_has_many_answers()
     {
@@ -236,5 +241,20 @@ class QuestionTest extends TestCase
         $question = Question::factory()->create();
 
         $this->assertInstanceOf(Category::class, $question->category);
+    }
+
+    protected function getCommentModel()
+    {
+        return Question::factory()->create();
+    }
+
+    protected function getActivityModel()
+    {
+        return Question::factory()->create();
+    }
+
+    protected function getActivityType()
+    {
+        return 'published_question';
     }
 }

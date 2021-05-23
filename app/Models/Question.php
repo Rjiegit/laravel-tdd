@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\CommentTrait;
 use App\Models\Traits\InvitedUsersTrait;
+use App\Models\Traits\RecordActivityTrait;
 use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class Question extends Model
     use VoteTrait;
     use CommentTrait;
     use InvitedUsersTrait;
+    use RecordActivityTrait;
 
     protected $guarded = ['id'];
 
@@ -27,6 +29,12 @@ class Question extends Model
 
     protected $with = [
         'category',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'published_at'
     ];
 
     public function answers()

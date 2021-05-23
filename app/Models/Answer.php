@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\CommentTrait;
+use App\Models\Traits\RecordActivityTrait;
 use App\Models\Traits\VoteTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Answer extends Model
     use HasFactory;
     use VoteTrait;
     use CommentTrait;
+    use RecordActivityTrait;
 
     protected $guarded = ['id'];
     protected $appends = [

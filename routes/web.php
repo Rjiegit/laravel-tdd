@@ -8,6 +8,7 @@ use App\Http\Controllers\BestAnswerController;
 use App\Http\Controllers\CommentDownVotesController;
 use App\Http\Controllers\CommentUpVotesController;
 use App\Http\Controllers\DraftController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublishedQuestionController;
 use App\Http\Controllers\QuestionCommentController;
 use App\Http\Controllers\QuestionController;
@@ -94,3 +95,6 @@ Route::get('drafts', [DraftController::class, 'index']);
 
 Route::post('users/{user}/avatar', [UserAvatarController::class, 'store'])
     ->name('user-avatar.store');
+
+Route::get('profiles/{user}', [ProfileController::class, 'show'])
+    ->name('users.show');

@@ -45,6 +45,11 @@ class User extends Authenticatable
         'userAvatar',
     ];
 
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     public function getUserAvatarAttribute()
     {
         return $this->avatar();

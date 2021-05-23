@@ -43,7 +43,7 @@
                             {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">個人中心</a>
+                            <a class="dropdown-item" href="/profiles/{{ Auth::user()->id }}">個人中心</a>
                             <a class="dropdown-item" href="/drafts">草稿</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" id="logout" href="#">

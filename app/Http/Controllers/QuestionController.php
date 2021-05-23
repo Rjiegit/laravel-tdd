@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\QuestionFilter;
 use App\Models\Category;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -20,9 +21,10 @@ class QuestionController extends Controller
      *
      * @param Category $category
      * @param QuestionFilter $filters
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index(Category $category, QuestionFilter $filters)
+    public function index(Category $category, QuestionFilter $filters, User $user)
     {
 
         if ($category->exists) {
@@ -37,7 +39,14 @@ class QuestionController extends Controller
             return $this->appendAttribute($item);
         }, $questions->items());
 
-        return view('questions.index', compact('questions'));
+        $activeUsers = $user->getActiveUsers();
+
+        return view('questions.index',
+            compact(
+                'questions',
+                'activeUsers'
+            )
+        );
     }
 
     public function create(Question $question)

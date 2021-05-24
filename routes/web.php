@@ -16,6 +16,7 @@ use App\Http\Controllers\QuestionDownVotesController;
 use App\Http\Controllers\QuestionUpVotesController;
 use App\Http\Controllers\SubscribeQuestionsController;
 use App\Http\Controllers\UserAvatarController;
+use App\Http\Controllers\UserNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,3 +99,5 @@ Route::post('users/{user}/avatar', [UserAvatarController::class, 'store'])
 
 Route::get('profiles/{user}', [ProfileController::class, 'show'])
     ->name('users.show');
+
+Route::get('notifications', [UserNotificationController::class, 'index'])->name('user-notification.index');

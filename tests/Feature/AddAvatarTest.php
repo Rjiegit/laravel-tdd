@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -85,6 +86,18 @@ class AddAvatarTest extends TestCase
         ]);
 
         $this->assertEquals('avatars/' . $file->hashName(), auth()->user()->avatar_path);
-        Storage::disk('public')->assertExists('avatars/'. $file->hashName());
+        Storage::disk('public')->assertExists('avatars/' . $file->hashName());
+    }
+
+    public function test_can_only_update_avatar_of_himself()
+    {
+        $jane = User::factory()->create();
+
+        $this->signIn($john = User::factory()->create([
+            'name' => 'john'
+        ]))->post(route('user-avatar.store', ['user' => $jane]), [
+            'avatar' => null
+        ])
+            ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

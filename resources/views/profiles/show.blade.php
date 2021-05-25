@@ -11,7 +11,7 @@
                     </h1>
                 </div>
 
-                @if(Auth::check())
+                @can('update', $profileUser)
                     <form method="POST" action="{{ route('user-avatar.store', $profileUser) }}"
                           enctype="multipart/form-data">
                         {{ csrf_field() }}
@@ -22,7 +22,7 @@
 
                         <button type="submit" class="btn btn-primary">上傳頭像</button>
                     </form>
-                @endif
+                @endcan
 
                 <img src="{{ $profileUser->userAvatar }}" width="200" height="200">
 

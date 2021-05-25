@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserAvatarController extends Controller
@@ -28,8 +29,10 @@ class UserAvatarController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $this->validate($request, [
             'avatar' => ['required', 'image', 'dimensions:min_width=200,min_height=200']
         ]);
